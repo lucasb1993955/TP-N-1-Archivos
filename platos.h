@@ -21,7 +21,7 @@ void menu_platos()
         setColor(GREEN);
 
         cls();
-        cout<<"MENÚ PLATOS"<<endl;
+        cout<<"MENÃš PLATOS"<<endl;
         cout<<"--------------------------------"<<endl;
         cout<<"1) NUEVO PLATO"<<endl;
         cout<<"2) MODIFICAR PLATO"<<endl;
@@ -29,7 +29,7 @@ void menu_platos()
         cout<<"4) PLATOS POR RESTAURANT"<<endl;
         cout<<"5) LISTAR TODOS LOS PLATOS"<<endl;
         cout<<"6) ELIMINAR PLATO"<<endl;
-        cout<<"0) VOLVER AL MENÚ PRINCIPAL"<<endl<<endl;
+        cout<<"0) VOLVER AL MENÃš PRINCIPAL"<<endl<<endl;
         cout<<"--------------------------------"<<endl;
         cout<< "ingrese una opcion: "<<endl;
         cin>>opc;
@@ -306,29 +306,42 @@ void listar_platoXid()
 void platosXrestaurante()
 {
     cls();
-    int id;
+    int id, i=0,j=0;
     plato reg;
+    FILE*p;
     cout<< "ingrese el id restaurante: "<<endl;
     cin>>id;
     cls();
-    int indice=buscar_id_restaurante(id);
-    if(indice>=0)
+    if(buscar_id_restaurante(id)<0)
     {
-        reg=leer_plato(indice);
-        listar_platos(reg,0);
+        cout<< "id no existente."<<endl;
     }
     else
     {
-        cout<< "id restaurante no existente"<<endl;
+        p=fopen(PATH_PLATO,"rb");
+        if(p==NULL)
+        {
+            cout<< "no se pudo abrir el archivo"<<endl;
+        }
+        while(fread(&reg,sizeof(plato),1,p)==1)
+        {
+            if(reg.id_restaurante==id)
+            {
+                reg=leer_plato(i);
+                listar_platos(reg,j);
+                j++;
+            }
+                i++;
+            }
+        }
     }
-}
 void listar_platos(plato v,int c)
 {
     setColor(LIGHTBLUE);
     if(c==0)
     {
         cout<<"*================================================================================================================================*"<<endl;
-        cout<<"*ID  ° NOMBRE       °       COSTO PREP.    °   VALOR VENTA   °   TIEMPO PREP.   °   ID REST.  °   COMISION REST.    °   ID CAT.  *"<<endl;
+        cout<<"*ID  Â° NOMBRE       Â°       COSTO PREP.    Â°   VALOR VENTA   Â°   TIEMPO PREP.   Â°   ID REST.  Â°   COMISION REST.    Â°   ID CAT.  *"<<endl;
         cout<<"*================================================================================================================================*"<<endl;
         if(v.estado==true)
         {
